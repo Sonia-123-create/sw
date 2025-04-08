@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl-pl">
+
+<head>
+    <meta charset="utf-8" />
+    <title>jQuery Demo</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>jQuery Demo</h1>
+    <h2>1. Lista</h2>
+    <button id="toggleBtn">Pokaż/Ukryj listę</button>
+    <ul id="myList">
+        <li>Element 1</li>
+        <li>Element 2</li>
+        <li>Element 3</li>
+    </ul>
+    <h2>2. Formularz</h2>
+    <form id="myForm">
+        <div>
+            <label>Imię:</label>
+            <input type="text" id="name">
+            <span id="nameError" class="error"></span>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="text" id="email">
+            <span id="emailError" class="error"></span>
+        </div>
+        <input type="button" id="submit" value="Wyślij" />
+    </form>
+    <h2>3. Dane</h2>
+    <button id="loadData">Załaduj</button>
+    <div id="results"></div>
+    <script>
+        const apiUrl = 'https://jsonplaceholder.typicode.com';
+        const name = document.querySelector('#name');
+        $("#toggleBtn").click(function () {
+            $("#myList").toggle();
+        });
+        $("#loadData").click(function () {
+            $.ajax({
+                url: apiUrl,
+                success: function (result) {
+                    $("#results").html(result);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            if (!/^[A-ZŁŻ]{1}[a-zęóąśłżźćń]{1,}$/.test(name.value)) {
+                nameError.innerHTML = 'Niepoprawna wartość w polu: Imię !';
+            }
+            else {
+                nameError.innerHTML = "";
+            }
+            if (!/[\w\._-]+@{1}[a-z]+\.[a-z]{2,6}/.test(email.value)) {
+                emailError.innerHTML = 'Niepoprawna wartość w polu: Email !';
+            }
+            else {
+                emailError.innerHTML = "";
+            }
+            if (nameError.innerHTML == "" && emailError.innerHTML == "") {
+                myForm.submit();
+            }
+        });
+    </script>
+</body>
+
+</html>
